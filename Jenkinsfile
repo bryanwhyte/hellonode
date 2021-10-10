@@ -17,7 +17,7 @@ node {
     stage('Tar Image & Create Installed Package Manifest') {
         
         sh 'echo "Create a tar of the container image for scanning"'
-        sh 'docker save -o hellonode.tar bryanwhyte/hellonode'
+        sh "docker save -o hellonode.tar bryanwhyte/hellonode"
         
         app.inside {
             sh 'echo "Create Manifest of installed OS Packages"'

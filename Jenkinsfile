@@ -14,18 +14,14 @@ node {
         app = docker.build("bryanwhyte/hellonode")
     }
 
-    stage('Test image') {
-        /* Ideally, we would run a test framework against our image.
-         * For this example, we're using a Volkswagen-type approach ;-) */
-
+    stage('Tar Image & Create Installed Package Manifest') {
+        
         sh 'echo "Create a tar of the container image for scanning"'
         sh 'docker save -o hellonode.tar bryanwhyte/hellonode'
         
         app.inside {
             sh 'echo "Create Manifest of installed OS Packages"'
-            /*
             sh 'dpkg-query -W > debian-packages.txt'
-            */
         }
               
     }
@@ -33,6 +29,7 @@ node {
     stage('Nexus Lifecycle Evaluation') {
         nexusPolicyEvaluation failBuildOnNetworkError: false, iqApplication: "${env.JOB_BASE_NAME}", iqStage: 'build', jobCredentialsId: '', iqScanPatterns: [[scanPattern: '**/*.*']]
         
+        /* Remove scan artifacts */
         sh 'rm -rf hellonode.tar'
         sh 'rm -rf debian-packages.txt'
     }

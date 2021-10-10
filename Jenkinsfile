@@ -20,11 +20,14 @@ node {
 
         app.inside {
             sh 'echo "Tests passed"'
+            sh 'dpkg-query'
+            sh 'dpkg-query -W > debian-packages.txt'
         }
     }
     
     stage('Nexus Lifecycle Evaluation') {
 
+        app.run()
         nexusPolicyEvaluation failBuildOnNetworkError: false, iqApplication: "${env.JOB_BASE_NAME}", iqStage: 'build', jobCredentialsId: '', iqScanPatterns: [[scanPattern: '**/*.*']]
     }
         

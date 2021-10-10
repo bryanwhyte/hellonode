@@ -31,10 +31,6 @@ node {
         
         app.run()
         nexusPolicyEvaluation failBuildOnNetworkError: false, iqApplication: "${env.JOB_BASE_NAME}", iqStage: 'build', jobCredentialsId: '', iqScanPatterns: [[scanPattern: '**/*.*']]
-        
-        /* Remove scan artifacts */
-        sh 'rm -rf hellonode.tar'
-        sh 'rm -rf debian-packages.txt'
     }
         
     stage('Push image') {
@@ -47,4 +43,11 @@ node {
             app.push("latest")
         }
     }
+    
+    stage('Remove Scan Artifacts') {
+        sh 'ls -l'
+        
+        sh 'rm -rf hellonode.tar'
+        sh 'rm -rf debian-packages.txt'
+    }    
 }

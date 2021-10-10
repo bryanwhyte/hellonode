@@ -23,7 +23,9 @@ node {
         
         app.inside {
             sh 'echo "Create Manifest of installed OS Packages"'
+            /*
             sh 'dpkg-query -W > debian-packages.txt'
+            */
         }
               
     }

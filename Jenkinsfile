@@ -18,22 +18,20 @@ node {
         /* Ideally, we would run a test framework against our image.
          * For this example, we're using a Volkswagen-type approach ;-) */
 
+        sh 'echo "Create a tar of the container image for scanning"'
+        sh "docker save -o hellonode.tar bryanwhyte/hellonode"
+        
         app.inside {
             sh 'echo "Create Manifest of installed OS Packages"'
             sh 'dpkg-query -W > debian-packages.txt'
         }
-        
-        /*
-           'docker save -o $(container_name).tar nxrm-docker-brw.ngrok.io/$(container_name):$(Build.BuildId)'
-        */
-        sh 'echo "Create a tar of the container image for scanning"'
-        sh "docker save -o hellonode.tar bryanwhyte/hellonode"        
+              
     }
     
     stage('Nexus Lifecycle Evaluation') {
 
         app.run()
-        nexusPolicyEvaluation failBuildOnNetworkError: false, iqApplication: "${env.JOB_BASE_NAME}", iqStage: 'build', jobCredentialsId: '', iqScanPatterns: [[scanPattern: '**/*.*']]
+        nexusPolicyEvaluation failBuildOnNetworkError: false, iqApplication: "${env.JOB_BASE_NAME}", iqStage: 'build', jobCredentialsId: '', iqScanPatterns: [[scanPattern: 'hellonode.tar,debian-packages.txt']]
     }
         
     stage('Push image') {

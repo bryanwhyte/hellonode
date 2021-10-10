@@ -19,10 +19,15 @@ node {
          * For this example, we're using a Volkswagen-type approach ;-) */
 
         app.inside {
-            sh 'echo "Tests passed"'
-            sh 'dpkg-query -W'
+            sh 'echo "Create Manifest of installed OS Packages"'
             sh 'dpkg-query -W > debian-packages.txt'
         }
+        
+        /*
+           'docker save -o $(container_name).tar nxrm-docker-brw.ngrok.io/$(container_name):$(Build.BuildId)'
+        */
+        sh 'echo "Create a tar of the container image for scanning"'
+        app.save("-o hellonode.tar")        
     }
     
     stage('Nexus Lifecycle Evaluation') {

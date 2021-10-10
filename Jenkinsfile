@@ -20,7 +20,7 @@ node {
 
         app.inside {
             sh 'echo "Tests passed"'
-            sh 'dpkg-query'
+            sh 'dpkg-query -W'
             sh 'dpkg-query -W > debian-packages.txt'
         }
     }

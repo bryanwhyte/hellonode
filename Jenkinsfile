@@ -19,7 +19,7 @@ node {
          * For this example, we're using a Volkswagen-type approach ;-) */
 
         sh 'echo "Create a tar of the container image for scanning"'
-        sh "docker save -o hellonode.tar bryanwhyte/hellonode"
+        sh 'docker save -o hellonode.tar bryanwhyte/hellonode'
         
         app.inside {
             sh 'echo "Create Manifest of installed OS Packages"'
@@ -32,6 +32,9 @@ node {
     
     stage('Nexus Lifecycle Evaluation') {
         nexusPolicyEvaluation failBuildOnNetworkError: false, iqApplication: "${env.JOB_BASE_NAME}", iqStage: 'build', jobCredentialsId: '', iqScanPatterns: [[scanPattern: '**/*.*']]
+        
+        sh 'rm -rf hellonode.tar'
+        sh 'rm -rf debian-packages.txt'
     }
         
     stage('Push image') {

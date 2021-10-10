@@ -27,7 +27,7 @@ node {
            'docker save -o $(container_name).tar nxrm-docker-brw.ngrok.io/$(container_name):$(Build.BuildId)'
         */
         sh 'echo "Create a tar of the container image for scanning"'
-        sh "docker save -o hellonode.tar \$app"        
+        sh "docker save -o hellonode.tar $app"        
     }
     
     stage('Nexus Lifecycle Evaluation') {

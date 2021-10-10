@@ -22,7 +22,12 @@ node {
             sh 'echo "Tests passed"'
         }
     }
-
+    
+    stage('Nexus Lifecycle Evaluation') {
+      steps {
+        nexusPolicyEvaluation failBuildOnNetworkError: false, iqApplication: "${env.JOB_BASE_NAME}", iqStage: 'build', jobCredentialsId: '', iqScanPatterns: [[scanPattern: '**/*.*']]
+    }
+        
     stage('Push image') {
         /* Finally, we'll push the image with two tags:
          * First, the incremental build number from Jenkins

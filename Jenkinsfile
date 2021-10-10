@@ -29,7 +29,7 @@ node {
     }
     
     stage('Nexus Lifecycle Evaluation') {
-        nexusPolicyEvaluation failBuildOnNetworkError: false, iqApplication: "${env.JOB_BASE_NAME}", iqStage: 'build', jobCredentialsId: '', iqScanPatterns: [[scanPattern: '**/hellonode.tar,debian-packages.txt']]
+        nexusPolicyEvaluation failBuildOnNetworkError: false, iqApplication: "${env.JOB_BASE_NAME}", iqStage: 'build', jobCredentialsId: '', iqScanPatterns: [[scanPattern: '**/*.*']]
     }
         
     stage('Push image') {

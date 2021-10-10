@@ -24,9 +24,8 @@ node {
     }
     
     stage('Nexus Lifecycle Evaluation') {
-      steps {
+
         nexusPolicyEvaluation failBuildOnNetworkError: false, iqApplication: "${env.JOB_BASE_NAME}", iqStage: 'build', jobCredentialsId: '', iqScanPatterns: [[scanPattern: '**/*.*']]
-      }
     }
         
     stage('Push image') {

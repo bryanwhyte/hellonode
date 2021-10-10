@@ -29,6 +29,7 @@ node {
     stage('Nexus Lifecycle Evaluation') {
         sh 'ls -l'
         
+        app.run()
         nexusPolicyEvaluation failBuildOnNetworkError: false, iqApplication: "${env.JOB_BASE_NAME}", iqStage: 'build', jobCredentialsId: '', iqScanPatterns: [[scanPattern: '**/*.*']]
         
         /* Remove scan artifacts */
